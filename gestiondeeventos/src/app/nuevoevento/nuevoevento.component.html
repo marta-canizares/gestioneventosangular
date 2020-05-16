@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-12">
+        <h2>Nuevo Evento</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="add-items d-flex"> <input type="text" class="form-control mr-3" placeholder="Titulo"
+                [(ngModel)]="eventos.titulo">
+            <input type="text" class="form-control mr-3" placeholder="Fecha inicio" [(ngModel)]="eventos.fecha">
+            <input type="text" class="form-control" placeholder="Hora inicio" [(ngModel)]="eventos.hora">
+        </div>
+        <div class="add-items d-flex"> <input type="text" class="form-control mr-3 mt-3" placeholder="Facilitador"
+                [(ngModel)]="eventos.facilitador">
+            <input type="text" class="form-control mr-3 mt-3" placeholder="E-mail Facilitador"
+                [(ngModel)]="eventos.email">
+            <input type="text" class="form-control mt-3" placeholder="Max participantes"
+                [(ngModel)]="eventos.maxparticipantes">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 ml-3">
+            <div class="add-items mt-3">
+                <textarea name="Descripcion" id="" cols="30" rows="3" placeholder="Descripcion"
+                    [(ngModel)]="eventos.descripcion"></textarea>
+            </div>
+
+            <button class="add btn btn-success font-weight-bold mt-3 mb-3" (click)="addEvent()">Insertar</button>
+        </div>
+    </div>
+    <hr>
+
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h2>Lista de Eventos</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">EVENTO</th>
+                    <th scope="col">INICIO</th>
+                    <th scope="col">FACILITADOR </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let evento of arrEventos; index as i" [ngClass]="{'eventoPasado': evento.fecha < today()}">
+                    <td>{{evento.titulo}}</td>
+                    <td>{{evento.fecha}} {{evento.hora}}</td>
+                    <td>{{evento.facilitador}}</td>
+                    <td>
+                        <div class="mt-2">
+                            <img src="https://image.flaticon.com/icons/svg/25/25313.svg" width="30" type="button"
+                                data-toggle="modal" [attr.data-target]="'#modal' + i">
+                            <!--hay que poner en la imagen [attr.data-target]="'#modal' + i"> y concatenar la i, abajo podemos poner la i normal-->
+                            <div class="modal fade" id="modal{{i}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"> {{evento.titulo}}
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{evento.descripcion}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td><input type="text" class="form-control" placeholder="Numero de participantes"
+                            (blur)="guardaParticipantes($event.target.value, evento, i)"></td>
+                    <td><button class=" add btn btn-warning font-weight-bold"
+                            (click)="deleteEvent(i, evento)">Borrar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
